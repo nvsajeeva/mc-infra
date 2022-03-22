@@ -79,3 +79,27 @@ resource "aws_security_group" "mc-rds-sg" {
     "Name"                                      = "mc-rds-sg"
   })
 }
+
+resource "aws_security_group" "ghost_lb_sg" {
+  name   = "ghost-sg-alb"
+  vpc_id = aws_vpc.demo.id
+
+  # Accept http traffic from the internet
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = tomap({
+    "Name"                                      = "mc-loade-balancer-sg"
+})
+}

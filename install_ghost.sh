@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo yum update –y
+apt-get update -y

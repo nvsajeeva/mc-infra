@@ -3,7 +3,8 @@ resource "aws_launch_configuration" "mc_lc" {
   image_id        = "ami-04505e74c0741db8d"
   security_groups = [aws_security_group.mc-ghost-sg.id]
   instance_type   = var.ec2_instance_type
-
+  key_name                = module.aws-keypair.key_name
+  user_data               = "${file("install_ghost.sh")}"
   lifecycle {
     create_before_destroy = true
   }

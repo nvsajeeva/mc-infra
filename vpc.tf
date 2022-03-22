@@ -23,8 +23,7 @@ resource "aws_subnet" "demo" {
   vpc_id                  = aws_vpc.demo.id
 
   tags = tomap({
-    "Name"                                      = "mc-subnet",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+    "Name"                                      = "mc-subnet"
   })
 }
 

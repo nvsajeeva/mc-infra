@@ -1,5 +1,5 @@
 
-resource "aws_default_security_group" "default" {
+resource "aws_security_group" "mc-ghost-sg" {
   vpc_id = aws_vpc.demo.id
 
   ingress {
@@ -46,4 +46,36 @@ resource "aws_default_security_group" "default" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  tags = tomap({
+    "Name"                                      = "mc-ghost-sg"
+  })
+}
+
+resource "aws_security_group" "mc-rds-sg" {
+  vpc_id = aws_vpc.demo.id
+
+  ingress {
+    description      = "traffic from outside"
+    from_port        = 3306
+    to_port          = 3306
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+  ingress {
+      from_port = 0
+      to_port = 0
+      protocol = -1
+      self = true
+  }
+ 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = tomap({
+    "Name"                                      = "mc-rds-sg"
+  })
 }

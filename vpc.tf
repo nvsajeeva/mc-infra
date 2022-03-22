@@ -8,7 +8,8 @@
 
 resource "aws_vpc" "demo" {
   cidr_block = "10.0.0.0/16"
-
+  enable_dns_hostnames = true
+  enable_dns_support = true
   tags = tomap({
     "Name"                                      = "mc-vpc"
   })
@@ -23,8 +24,7 @@ resource "aws_subnet" "demo" {
   vpc_id                  = aws_vpc.demo.id
 
   tags = tomap({
-    "Name"                                      = "mc-subnet",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+    "Name"                                      = "mc-subnet"
   })
 }
 

@@ -1,3 +1,4 @@
+/*
 resource "aws_db_instance" "mc-rds" {
   allocated_storage      = 20
   storage_type           = "gp2"
@@ -19,3 +20,4 @@ resource "aws_db_subnet_group" "default" {
   name       = "main"
   subnet_ids = [aws_subnet.demo[0].id, aws_subnet.demo[1].id]
 }
+*/

@@ -4,7 +4,13 @@ resource "aws_launch_configuration" "mc_lc" {
   security_groups = [aws_security_group.mc-ghost-sg.id]
   instance_type   = var.ec2_instance_type
   key_name                = module.aws-keypair.key_name
-  user_data               = "${file("install_ghost.sh")}"
+  #user_data               = "${file("install_ghost.sh")}"
+  user_data       = templatefile("install_ghost.sh", 
+  {
+    endpoint = aws_db_instance.mc-rds.address,
+    username = local.db_creds.username,
+    password = local.db_creds.password
+  })
   lifecycle {
     create_before_destroy = true
   }

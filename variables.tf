@@ -39,3 +39,7 @@ variable "asg_min_size" {
   type    = string
   default = 1
 }
+variable "origin_id" {
+  default = "mc-ghost-origin"
+  
+}

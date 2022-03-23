@@ -5,6 +5,16 @@ sudo useradd -d /home/appuser -s /bin/bash appuser
 sudo usermod -aG sudo appuser
 sudo apt-get update -y
 sudo apt-get upgrade -y
+sudo apt update -y
+sudo apt install ruby-full -y
+sudo apt install wget -y
+wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto > /tmp/logfile
+sudo service codedeploy-agent start
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install yarn -y
 sudo apt-get install -y nginx
 sudo ufw allow 'Nginx Full'
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash

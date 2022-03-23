@@ -1,3 +1,4 @@
+
 resource "aws_launch_configuration" "mc_lc" {
   name_prefix     = "mc-lc"
   image_id        = "ami-04505e74c0741db8d"
@@ -9,7 +10,8 @@ resource "aws_launch_configuration" "mc_lc" {
   {
     endpoint = aws_db_instance.mc-rds.address,
     username = local.db_creds.username,
-    password = local.db_creds.password
+    password = local.db_creds.password,
+    alb_dns = aws_lb.mc_alb.dns_name
   })
   lifecycle {
     create_before_destroy = true

@@ -19,8 +19,7 @@ sudo su root -c  "echo 'appuser ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 cd /var/www/sitename
 #sudo su ghost -c 'ghost install'
 sudo su appuser -c 'ghost install \
-    --url      "http://mc.com" \
-    --admin-url "http://admin.mc.com" \
+    --url      "http://${alb_dns}" \
     --db "mysql" \
     --dbhost "${endpoint}" \
     --dbuser "${username}" \
@@ -28,3 +27,5 @@ sudo su appuser -c 'ghost install \
     --dbname "mc" \
     --process systemd \
     --no-prompt'
+
+#    --admin-url "http://mc.com/admin" \

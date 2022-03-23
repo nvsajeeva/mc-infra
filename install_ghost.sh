@@ -19,7 +19,7 @@ sudo su root -c  "echo 'appuser ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 cd /var/www/sitename
 #sudo su ghost -c 'ghost install'
 sudo su appuser -c 'ghost install \
-    --url      "http://${alb_dns}" \
+    --url      "http://blog.meta-carbon.click" \
     --db "mysql" \
     --dbhost "${endpoint}" \
     --dbuser "${username}" \

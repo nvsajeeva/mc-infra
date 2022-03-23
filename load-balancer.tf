@@ -20,6 +20,18 @@ resource "aws_lb_listener" "mc_lb_listener" {
   }
 }
 
+resource "aws_lb_listener" "securedlistener" {
+  load_balancer_arn = aws_lb.mc_alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = var.cert
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.mc_lb_tg.arn
+  }
+}
 
 resource "aws_lb_target_group" "mc_lb_tg" {
   name                 = "mc-tg"

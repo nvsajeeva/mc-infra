@@ -15,7 +15,7 @@ resource "aws_s3_bucket_acl" "b_acl" {
 module "cdn" {
   source = "terraform-aws-modules/cloudfront/aws"
 
-  aliases             = "blog.meta-carbon.click"
+  aliases             = ["blog.meta-carbon.click"]
   comment             = "MC CloudFront"
   enabled             = true
   is_ipv6_enabled     = true
@@ -49,10 +49,10 @@ module "cdn" {
     target_origin_id       = var.origin_id
     viewer_protocol_policy = "redirect-to-https"
 
-    allowed_methods = ["GET", "HEAD", "OPTIONS", "DELETE", "PATCH", "POST", "PUT"]
+    allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
     compress        = false
-    query_string    = true
+    query_string    = true  
     forwarded_values = [
       {
         cookies = [
@@ -60,66 +60,19 @@ module "cdn" {
             forward           = "all",
             whitelisted_names = []
           }
-        ],
-        headers = [
-          "*"
-        ],
-        query_string            = true,
+        ]
+        headers = ["x-forwarded-host"]
+        query_string            = true
         query_string_cache_keys = []
       }
     ]
-
   }
-  ordered_cache_behavior = [
-    {
-      allowed_methods = [
-        "DELETE",
-        "GET",
-        "HEAD",
-        "OPTIONS",
-        "PATCH",
-        "POST",
-        "PUT"
-      ]
-      cache_policy_id = ""
-      cached_methods = [
-        "GET",
-        "HEAD"
-      ]
-      compress                  = false
-      #default_ttl               = 86400
-      field_level_encryption_id = ""
-      forwarded_values = [
-        {
-          cookies = [
-            {
-              forward           = "all"
-              whitelisted_names = []
-            }
-          ]
-          headers = [
-            "*"
-          ]
-          query_string            = true
-          query_string_cache_keys = []
-        }
-      ]
-      function_association      = []
-      origin_request_policy_id  = ""
-      path_pattern              = "/api/*"
-      "realtime_log_config_arn" = ""
-      target_origin_id          = var.origin_id
-      "trusted_key_groups"      = []
-      trusted_signers           = []
-      viewer_protocol_policy    = "redirect-to-https"
-    }
 
-  ]
-  /*
   viewer_certificate = {
     acm_certificate_arn      = var.cert
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1_2016"
+    cloudfront_default_certificate = false
+    minimum_protocol_version       = "TLSv1.1_2016"
   }
-  */
 }

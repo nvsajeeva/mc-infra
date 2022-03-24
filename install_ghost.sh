@@ -20,6 +20,10 @@ sudo ufw allow 'Nginx Full'
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash
 sudo apt-get install -y nodejs
 sudo npm install ghost-cli@latest -g
+sudo apt-get install awscli -y
+sudo touch /etc/rc.local
+sudo chmod +x /etc/rc.local
+sudo bash -c 'echo "aws codepipeline start-pipeline-execution --name mc-deploy-pipeline --region us-east-1" > /etc/rc.local'
 sudo mkdir -p /var/www/sitename
 sudo chown appuser:appuser /var/www/sitename
 sudo chmod 775 /var/www/sitename

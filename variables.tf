@@ -39,3 +39,15 @@ variable "asg_min_size" {
   type    = string
   default = 1
 }
+variable "origin_id" {
+  default = "mc-ghost-origin"
+  
+}
+variable "origin_id_2" {
+  default = "mc-node-origin"
+  
+}
+variable "cert" {
+  default = "arn:aws:acm:us-east-1:582715569472:certificate/9ac2ac15-cb25-48be-82df-11d4e885bfd4"
+  
+}

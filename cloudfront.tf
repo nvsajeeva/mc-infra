@@ -41,7 +41,17 @@ module "cdn" {
         origin_protocol_policy = "https-only"
         origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
       }
-
+    },
+    {
+      domain_name = aws_lb.mc_alb_3000.dns_name
+      origin_id   = var.origin_id_2
+      origin_path = ""
+      custom_origin_config = {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "https-only"
+        origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      }
     }
   ]
 
@@ -67,6 +77,46 @@ module "cdn" {
       }
     ]
   }
+  ordered_cache_behavior = [
+    {
+      allowed_methods = [
+        "GET",
+        "HEAD"
+      ]
+      cache_policy_id = ""
+      cached_methods = [
+        "GET",
+        "HEAD"
+      ]
+      compress                  = false
+      default_ttl               = 86400
+      field_level_encryption_id = ""
+      forwarded_values = [
+        {
+          cookies = [
+            {
+              forward           = "all"
+              whitelisted_names = []
+            }
+          ]
+          headers = [
+            "*"
+          ]
+          query_string            = false
+          query_string_cache_keys = []
+        }
+      ]
+      function_association      = []
+      origin_request_policy_id  = ""
+      path_pattern              = "/devops-assessment"
+      "realtime_log_config_arn" = ""
+      target_origin_id          = var.origin_id_2
+      "trusted_key_groups"      = []
+      trusted_signers           = []
+      viewer_protocol_policy    = "redirect-to-https"
+    }
+
+  ]
 
   viewer_certificate = {
     acm_certificate_arn      = var.cert

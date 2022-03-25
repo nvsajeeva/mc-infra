@@ -23,7 +23,12 @@ sudo npm install ghost-cli@latest -g
 sudo apt-get install awscli -y
 sudo touch /etc/rc.local
 sudo chmod +x /etc/rc.local
-sudo bash -c 'echo "aws codepipeline start-pipeline-execution --name mc-deploy-pipeline --region us-east-1" > /etc/rc.local'
+#sudo bash -c 'echo "aws codepipeline start-pipeline-execution --name mc-deploy-pipeline --region us-east-1" > /etc/rc.local'
+sudo bash -c 'echo "#!/bin/sh"> /etc/init.d/mcscript.sh'
+sudo bash -c 'echo "aws codepipeline start-pipeline-execution --name mc-deploy-pipeline --region us-east-1" >> /etc/init.d/mcscript.sh'
+sudo chmod +x /etc/init.d/mcscript.sh
+sudo update-rc.d mcscript.sh defaults
+aws codepipeline start-pipeline-execution --name mc-deploy-pipeline --region us-east-1
 sudo mkdir -p /var/www/sitename
 sudo chown appuser:appuser /var/www/sitename
 sudo chmod 775 /var/www/sitename
